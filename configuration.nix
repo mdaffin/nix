@@ -34,6 +34,9 @@
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
 
+  programs.hyprland.enable = true;
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
   services.xserver = {
     layout = "gb";
     xkbVariant = "";
@@ -53,14 +56,21 @@
     pulse.enable = true;
   };
 
+  # workaround for issue with obsidian: https://github.com/NixOS/nixpkgs/issues/273611
+  nixpkgs.config.permittedInsecurePackages =
+    pkgs.lib.optional (pkgs.obsidian.version == "1.4.16") "electron-25.9.0";
+
   users.users.nous = {
     isNormalUser = true;
     description = "nous";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
+      wofi
       xsel
       firefox
       alacritty
+      obsidian
+      dunst
     ];
   };
 
