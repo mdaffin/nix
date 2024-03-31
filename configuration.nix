@@ -42,21 +42,21 @@
     LC_TIME = "en_GB.UTF-8";
   };
 
-  services.xserver.enable = true;
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  services.greetd = {
+    enable = true;
+    settings = rec {
+      initial_session = {
+        command = "${pkgs.hyprland}/bin/Hyprland";
+        user = "nous";
+      };
+      default_session = initial_session;
+    };
+  };
 
   programs.hyprland.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  services.xserver = {
-    layout = "gb";
-    xkbVariant = "";
-  };
-
   console.keyMap = "uk";
-
-  services.printing.enable = true;
 
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -67,6 +67,7 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+  services.printing.enable = true;
 
   nixpkgs.config = {
     # workaround for issue with obsidian: https://github.com/NixOS/nixpkgs/issues/273611
@@ -81,16 +82,12 @@
     helix
   ];
 
-
   users.users.nous = {
     isNormalUser = true;
     description = "nous";
     extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.nushell;
   };
-
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "nous";
 
   nix = {
     package = pkgs.nixFlakes;
