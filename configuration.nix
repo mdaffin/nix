@@ -58,35 +58,29 @@
     pulse.enable = true;
   };
 
-  # workaround for issue with obsidian: https://github.com/NixOS/nixpkgs/issues/273611
-  nixpkgs.config.permittedInsecurePackages =
-    pkgs.lib.optional (pkgs.obsidian.version == "1.4.16") "electron-25.9.0";
+  nixpkgs.config = {
+    # workaround for issue with obsidian: https://github.com/NixOS/nixpkgs/issues/273611
+    permittedInsecurePackages =
+      pkgs.lib.optional (pkgs.obsidian.version == "1.4.16") "electron-25.9.0";
+    allowUnfree = true;
+  };
+
+  environment.systemPackages = with pkgs; [
+    nushell
+    git
+    helix
+  ];
+
 
   users.users.nous = {
     isNormalUser = true;
     description = "nous";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      wofi
-      xsel
-      firefox
-      alacritty
-      obsidian
-      dunst
-    ];
+    shell = pkgs.nushell;
   };
 
   services.xserver.displayManager.autoLogin.enable = true;
   services.xserver.displayManager.autoLogin.user = "nous";
-
-  nixpkgs.config.allowUnfree = true;
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    git
-    helix
-  ];
 
   nix = {
     package = pkgs.nixFlakes;
