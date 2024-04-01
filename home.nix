@@ -1,10 +1,11 @@
-{ config, pkgs, ... }:
+{ config, pkgs, unstable, ... }:
 
 {
   home.username = "nous";
   home.homeDirectory = "/home/nous";
 
   home.packages = with pkgs; [
+    ripgrep
     helix
     htop
     wofi
@@ -18,9 +19,13 @@
   home.file = {};
 
   programs = {
-    nushell. enable = true;
-    carapace.enable = true;
-    carapace.enableNushellIntegration = true;
+    nushell.enable = true;
+
+    carapace = {
+      enable = true;
+      package = unstable.carapace;
+      enableNushellIntegration = true;
+    };
 
     starship = {
       enable = true;
