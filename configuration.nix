@@ -66,6 +66,18 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = false;
+    settings = {
+      General = {
+        Enable = "Source,Sink,Media,Socket";
+        Experimental = true;
+      };
+    };
+  };
+  services.blueman.enable = true;
+
   services.printing.enable = true;
 
   nixpkgs.config = {

@@ -25,6 +25,8 @@
     };
   };
 
+  services.mpris-proxy.enable = true;
+
   home.packages = with pkgs; [
     ripgrep
     fd
@@ -36,6 +38,7 @@
     alacritty
     obsidian
     dunst
+    pavucontrol
   ];
 
   xdg.desktopEntries = {
