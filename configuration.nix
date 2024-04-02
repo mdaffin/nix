@@ -41,6 +41,8 @@
     LC_TIME = "en_GB.UTF-8";
   };
 
+  services.udisks2.enable = true;
+
   services.greetd = {
     enable = true;
     settings = rec {
