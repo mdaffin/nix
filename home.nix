@@ -4,20 +4,6 @@
   home.username = "nous";
   home.homeDirectory = "/home/nous";
 
-  home.packages = with pkgs; [
-    ripgrep
-    helix
-    htop
-    wofi
-    xsel
-    firefox
-    alacritty
-    obsidian
-    dunst
-  ];
-
-  home.file = {};
-
   programs = {
     nushell.enable = true;
 
@@ -38,6 +24,33 @@
       };
     };
   };
+
+  home.packages = with pkgs; [
+    ripgrep
+    fd
+    helix
+    htop
+    wofi
+    xsel
+    firefox
+    alacritty
+    obsidian
+    dunst
+  ];
+
+  xdg.desktopEntries = {
+    obsidian = {
+      name = "Obsidian";
+      comment = "Knowledge base";
+      exec = "env LD_LIBRARY_PATH=${pkgs.libGL}/lib obsidian %u";
+      icon = "obsidian";
+      type = "Application";
+      categories = [ "Office" ];
+      mimeType = [ "x-scheme-handler/obsidian" ];
+    };
+  };
+
+  home.file = {};
 
   home.sessionVariables = {
     EDITOR = "hx";
