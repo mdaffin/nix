@@ -80,7 +80,7 @@
 
   services = {
     mpris-proxy.enable = true;
-    dunst.enable = true;
+    mako.enable = true;
     # mpd.enable = true;
     udiskie.enable = true;
   };
@@ -93,6 +93,8 @@
     firefox
     obsidian
     pavucontrol
+    discord
+    vesktop
   ];
 
   wayland.windowManager.hyprland = {
@@ -126,7 +128,7 @@
       general {
           # See https://wiki.hyprland.org/Configuring/Variables/ for more
 
-          gaps_in = 2
+          gaps_in = 0
           gaps_out = 0
           border_size = 1
           col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
@@ -193,6 +195,7 @@
       bind = $mainMod, V, togglefloating, 
       bind = $mainMod, P, pseudo, # dwindle
       bind = $mainMod, J, togglesplit, # dwindle
+      bind = $mainMod, F, fullscreen,
 
       bind = $mainMod, T, togglegroup
       bind = $mainMod, tab, changegroupactive, b # Go to previous stacked windows
