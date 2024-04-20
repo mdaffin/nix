@@ -8,7 +8,7 @@ in {
     config = {
       modifier = mod;
 
-      fonts = ["DejaVu Sans Mono, FontAwesome 6"];
+      # fonts = ["DejaVu Sans Mono, FontAwesome 6"];
 
       keybindings = lib.mkOptionDefault {
         "${mod}+p" = "exec ${pkgs.dmenu}/bin/dmenu_run";
@@ -32,12 +32,12 @@ in {
         "${mod}+Shift+m" = "move workspace to output DP-5";
       };
 
-      bars = [
-        {
-          position = "bottom";
-          statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ${./i3status-rust.toml}";
-        }
-      ];
+      # bars = [
+      #   {
+      #     position = "bottom";
+      #     statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ${./i3status-rust.toml}";
+      #   }
+      # ];
     };
   };
 }

@@ -78,15 +78,15 @@
 
     desktopManager.xterm.enable = false;
     displayManager = {
+      autoLogin.enable = true;
+      autoLogin.user = "nous";
+      defaultSession = "none+i3";
       lightdm = {
         enable = true;
         greeter.enable = false;
-        autoLogin.enable = true;
-        autoLogin.user = "nous";
       };
     };
     windowManager = {
-      default = "i3";
       i3 = {
         enable = true;
         package = pkgs.i3-gaps;
@@ -95,11 +95,16 @@
     layout = "gb";
     libinput = {
       enable = true;
-      disableWhileTyping = true;
-      naturalScrolling = true;
-      additionalOptions = ''
-        Option "PalmDetection" "True"
-      '';
+      touchpad = {
+        tapping = false;
+        disableWhileTyping = true;
+        naturalScrolling = true;
+        clickMethod = "clickfinger";
+        accelProfile = "flat";
+        additionalOptions = ''
+          Option "PalmDetection" "True"
+        '';
+      };
     };
   };
 
