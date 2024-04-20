@@ -1,6 +1,10 @@
 { config, pkgs, unstable, ... }:
 
 {
+  imports = [
+    ./i3.nix
+  ];
+
   home = {
     username = "nous";
     homeDirectory = "/home/nous";
@@ -271,7 +275,7 @@
   };
 
   xdg.mimeApps.enable = true;
-  # xdg.portal.enable = true;
+  # xdg.portal.enable = true; # not yet supported, check again on 24.05
 
   programs.home-manager.enable = true;
 }

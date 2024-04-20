@@ -27,6 +27,21 @@
 
   networking.networkmanager.enable = true;
 
+  services.avahi = {
+    enable = true;
+    nssmdns = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      domain = true;
+      hinfo = true;
+      userServices = true;
+      workstation = true;
+    };
+  };
+
+  xdg.portal.wlr.enable = true;
+
   time.timeZone = "Europe/London";
   i18n.defaultLocale = "en_GB.UTF-8";
   i18n.extraLocaleSettings = {
@@ -43,19 +58,50 @@
 
   services.udisks2.enable = true;
 
-  services.greetd = {
-    enable = true;
-    settings = rec {
-      initial_session = {
-        command = "${pkgs.hyprland}/bin/Hyprland";
-        user = "nous";
-      };
-      default_session = initial_session;
-    };
-  };
+  # services.greetd = {
+  #   enable = true;
+  #   settings = rec {
+  #     initial_session = {
+  #       command = "${pkgs.hyprland}/bin/Hyprland";
+  #       user = "nous";
+  #     };
+  #     default_session = initial_session;
+  #   };
+  # };
 
   programs.hyprland.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+  environment.pathsToLink = [ "/libexec" ]; # links /libexec from derivations to /run/current-system/sw
+  services.xserver = {
+    enable = true;
+
+    desktopManager.xterm.enable = false;
+    displayManager = {
+      lightdm = {
+        enable = true;
+        greeter.enable = false;
+        autoLogin.enable = true;
+        autoLogin.user = "nous";
+      };
+    };
+    windowManager = {
+      default = "i3";
+      i3 = {
+        enable = true;
+        package = pkgs.i3-gaps;
+      };
+    };
+    layout = "gb";
+    libinput = {
+      enable = true;
+      disableWhileTyping = true;
+      naturalScrolling = true;
+      additionalOptions = ''
+        Option "PalmDetection" "True"
+      '';
+    };
+  };
 
   console.keyMap = "uk";
 
