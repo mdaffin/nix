@@ -88,6 +88,7 @@
     mako.enable = true;
     # mpd.enable = true;
     udiskie.enable = true;
+    playerctld.enable = true;
   };
 
   home.packages = with pkgs; [
