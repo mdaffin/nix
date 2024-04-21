@@ -1,11 +1,30 @@
 { config, lib, pkgs, ... }:
 
 {
-  programs.rofi.enable = true;
+  programs.rofi = {
+    enable = true;
+    theme = "gruvbox-dark";
+    plugins = with pkgs; [
+      rofi-calc
+      rofi-systemd
+      rofi-bluetooth
+      rofi-emoji
+      rofi-screenshot
+      rofi-power-menu
+    ];
+  };
   home.packages = with pkgs; [
+    i3status
+    i3lock
     alacritty
     firefox
     brightnessctl
+    rofi-calc
+    rofi-systemd
+    rofi-bluetooth
+    rofi-emoji
+    rofi-screenshot
+    rofi-power-menu
   ];
   xsession.windowManager.i3 = {
     enable = true;
@@ -22,8 +41,7 @@
       keybindings = lib.mkOptionDefault {
         "${mod}+Return" = "exec ${pkgs.alacritty }/bin/alacritty";
         "${mod}+Shift+Return" = "exec ${pkgs.firefox }/bin/firefox";
-        "${mod}+d" = "exec ${pkgs.rofi}/bin/rofi -show drun";
-        "${mod}+Shift+d" = "exec ${pkgs.rofi}/bin/rofi -show run";
+        "${mod}+d" = "exec ${pkgs.rofi}/bin/rofi -show drun -modi drun,window,calc,run,power-menu:rofi-power-menu";
         # "${mod}+x" = "exec sh -c '${pkgs.maim}/bin/maim -s | xclip -selection clipboard -t image/png'";
         # "${mod}+Shift+x" = "exec sh -c '${pkgs.i3lock}/bin/i3lock -c 444444 & sleep 5 && xset dpms force off'";
         "XF86AudioRaiseVolume" = "exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+";
