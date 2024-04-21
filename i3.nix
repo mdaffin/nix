@@ -39,11 +39,12 @@
       };
 
       keybindings = lib.mkOptionDefault {
+        "${mod}+Shift+s" = "exec systemctl suspend";
         "${mod}+Return" = "exec ${pkgs.alacritty }/bin/alacritty";
         "${mod}+Shift+Return" = "exec ${pkgs.firefox }/bin/firefox";
         "${mod}+d" = "exec ${pkgs.rofi}/bin/rofi -show drun -modi drun,window,calc,run,power-menu:rofi-power-menu";
         # "${mod}+x" = "exec sh -c '${pkgs.maim}/bin/maim -s | xclip -selection clipboard -t image/png'";
-        # "${mod}+Shift+x" = "exec sh -c '${pkgs.i3lock}/bin/i3lock -c 444444 & sleep 5 && xset dpms force off'";
+        "${mod}+Shift+l" = "exec sh -c '${pkgs.i3lock}/bin/i3lock -c 444444 & sleep 5 && xset dpms force off'";
         "XF86AudioRaiseVolume" = "exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+";
         "XF86AudioLowerVolume" = "exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-";
         "XF86AudioMute" = "exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
