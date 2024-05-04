@@ -42,9 +42,9 @@
         "${mod}+Shift+s" = "exec systemctl suspend";
         "${mod}+Return" = "exec ${pkgs.alacritty }/bin/alacritty";
         "${mod}+Shift+Return" = "exec ${pkgs.firefox }/bin/firefox";
-        "${mod}+d" = "exec ${pkgs.rofi}/bin/rofi -show drun -modi drun,window,calc,run,power-menu:rofi-power-menu";
+        "${mod}+d" = "exec ${pkgs.rofi}/bin/rofi -show drun -modi drun";
         # "${mod}+x" = "exec sh -c '${pkgs.maim}/bin/maim -s | xclip -selection clipboard -t image/png'";
-        "${mod}+Shift+l" = "exec sh -c '${pkgs.i3lock}/bin/i3lock -c 444444 & sleep 5 && xset dpms force off'";
+        # "${mod}+Shift+l" = "exec sh -c '${pkgs.i3lock}/bin/i3lock -c 444444 & sleep 5 && xset dpms force off'";
         "${mod}+Ctrl+x" = "--release exec --no-startup-id ${pkgs.xorg.xkill}/bin/xkill";
 
         "XF86AudioRaiseVolume" = "exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+";
