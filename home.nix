@@ -101,6 +101,7 @@
     pavucontrol
     discord
     vesktop
+    cinnamon.nemo
   ];
 
   xdg.desktopEntries = {
