@@ -23,8 +23,6 @@
     loader.efi.canTouchEfiVariables = true;
 
     supportedFilesystems = [ "bcachefs" ];
-
-    initrd.luks.devices."luks-49bfd765-d5c0-4992-85c9-a733f39192af".device = "/dev/disk/by-uuid/49bfd765-d5c0-4992-85c9-a733f39192af";
   };
   networking.hostName = "workshop";
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
