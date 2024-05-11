@@ -22,14 +22,14 @@
     lib = nixpkgs.lib;
   in {
     nixosConfigurations = {
-      workshop = lib.nixosSystem {
+      eulfe = lib.nixosSystem {
         inherit system;
         modules = [
-          ./configuration.nix
+          ./hosts/eulfe/configuration.nix
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.nous.imports = [ ./home.nix ];
+            home-manager.users.nous.imports = [ ./user/home.nix ];
             home-manager.extraSpecialArgs = { inherit unstable; };
           }
         ];
