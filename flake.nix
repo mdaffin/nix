@@ -32,10 +32,12 @@
           ./hosts/eulfe/configuration.nix
           disko.nixosModules.disko
           home-manager.nixosModules.home-manager {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.nous.imports = [ ./user/home.nix ];
-            home-manager.extraSpecialArgs = { inherit unstable; };
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.nous = import ./user/home.nix;
+              extraSpecialArgs = { inherit unstable; username = "nous"; nixosVersion = "23.11"; };
+            };
           }
         ];
       };

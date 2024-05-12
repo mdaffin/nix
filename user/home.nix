@@ -1,4 +1,4 @@
-{ config, pkgs, unstable, ... }:
+{ config, pkgs, unstable, username, nixosVersion, ... }:
 
 {
   imports = [
@@ -7,16 +7,17 @@
   ];
 
   home = {
-    username = "nous";
-    homeDirectory = "/home/nous";
+    username = username;
+    homeDirectory = "/home/" + username;
     # preferXdgDirectories = true; # enable on 24.05
     sessionPath = [
       "$HOME/.local/bin"
     ];
-    stateVersion = "23.11";
+    stateVersion = nixosVersion;
   };
 
   programs = {
+    home-manager.enable = true;
     nushell.enable = true;
 
     carapace = {
@@ -118,6 +119,4 @@
 
   xdg.mimeApps.enable = true;
   # xdg.portal.enable = true; # not yet supported, check again on 24.05
-
-  programs.home-manager.enable = true;
 }
