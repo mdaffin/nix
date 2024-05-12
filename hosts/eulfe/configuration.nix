@@ -61,18 +61,6 @@
 
   services.udisks2.enable = true;
 
-  # services.greetd = {
-  #   enable = true;
-  #   settings = rec {
-  #     initial_session = {
-  #       command = "${pkgs.hyprland}/bin/Hyprland";
-  #       user = "nous";
-  #     };
-  #     default_session = initial_session;
-  #   };
-  # };
-
-  programs.hyprland.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   environment.pathsToLink = [ "/libexec" ]; # links /libexec from derivations to /run/current-system/sw
