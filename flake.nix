@@ -41,6 +41,21 @@
           }
         ];
       };
+      lucal = lib.nixosSystem {
+        inherit system;
+        modules = [
+          ./hosts/lucal/configuration.nix
+          disko.nixosModules.disko
+          home-manager.nixosModules.home-manager {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.nous = import ./user/home.nix;
+              extraSpecialArgs = { inherit unstable; username = "nous"; nixosVersion = "23.11"; };
+            };
+          }
+        ];
+      };
     };
   };
 }
