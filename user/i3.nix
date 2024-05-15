@@ -13,6 +13,9 @@
       rofi-power-menu
     ];
   };
+
+  services.network-manager-applet.enable = true;
+
   home.packages = with pkgs; [
     i3status
     i3lock

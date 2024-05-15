@@ -22,10 +22,11 @@
 
     supportedFilesystems = [ "bcachefs" ];
   };
-  networking.hostName = "eulfe";
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "eulfe";
+    networkmanager.enable = true;
+  };
 
   services.avahi = {
     enable = true;
@@ -112,6 +113,7 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = false;
