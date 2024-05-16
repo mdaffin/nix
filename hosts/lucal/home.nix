@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ../user/home.nix
-    ../user/hidpi.nix
+    ../../user/home.nix
+    ../../user/hidpi.nix
   ];
 }
