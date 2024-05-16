@@ -89,6 +89,9 @@
     layout = "gb";
     libinput = {
       enable = true;
+      mouse = {
+        accelProfile = "flat";
+      };
       touchpad = {
         tapping = false;
         disableWhileTyping = true;
