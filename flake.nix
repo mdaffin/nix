@@ -36,7 +36,7 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.nous = import ./user/home.nix;
+              users.nous = import ./hosts/eulfe/home.nix;
               extraSpecialArgs = { inherit unstable; username = "nous"; nixosVersion = "23.11"; };
             };
           }
@@ -48,11 +48,12 @@
           ./hosts/lucal/configuration.nix
           disko.nixosModules.disko
           nixos-hardware.nixosModules.dell-xps-13-9350
+          nixos-hardware.nixosModules.common-hidpi
           home-manager.nixosModules.home-manager {
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.nous = import ./user/home.nix;
+              users.nous = import ./hosts/lucal/home.nix;
               extraSpecialArgs = { inherit unstable; username = "nous"; nixosVersion = "23.11"; };
             };
           }
