@@ -3,6 +3,7 @@
 {
   imports = [
     ./i3.nix
+    ./firefox.nix
   ];
 
   home = {
@@ -55,16 +56,14 @@
       # enableNushellIntegration = true;
     };
 
-    firefox = {
-      enable = true;
-    };
-
     fzf = {
       enable = true;
     };
 
     git = {
       enable = true;
+      userEmail = "github.reformat799@passmail.net";
+      userName = "nous";
     };
 
     helix = {
@@ -96,7 +95,6 @@
     fd
     htop
     xsel
-    firefox
     obsidian
     pavucontrol
     discord

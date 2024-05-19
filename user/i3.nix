@@ -20,7 +20,6 @@
     i3status
     i3lock
     alacritty
-    firefox
     brightnessctl
     rofi-calc
     rofi-systemd
@@ -29,6 +28,7 @@
     rofi-screenshot
     rofi-power-menu
   ];
+
   xsession.windowManager.i3 = {
     enable = true;
     config = let mod = "Mod4"; in {
@@ -43,8 +43,8 @@
 
       keybindings = lib.mkOptionDefault {
         "${mod}+Shift+s" = "exec systemctl suspend";
-        "${mod}+Return" = "exec ${pkgs.alacritty }/bin/alacritty";
-        "${mod}+Shift+Return" = "exec ${pkgs.firefox }/bin/firefox";
+        "${mod}+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
+        "${mod}+Shift+Return" = "exec ${pkgs.firefox}/bin/firefox";
         "${mod}+d" = "exec ${pkgs.rofi}/bin/rofi -show drun -modi drun";
         # "${mod}+x" = "exec sh -c '${pkgs.maim}/bin/maim -s | xclip -selection clipboard -t image/png'";
         # "${mod}+Shift+l" = "exec sh -c '${pkgs.i3lock}/bin/i3lock -c 444444 & sleep 5 && xset dpms force off'";

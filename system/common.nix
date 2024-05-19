@@ -24,7 +24,6 @@
   };
 
   networking = {
-    hostName = "eulfe";
     networkmanager.enable = true;
   };
 
@@ -98,6 +97,7 @@
         naturalScrolling = true;
         clickMethod = "clickfinger";
         accelProfile = "flat";
+        accelSpeed = "1";
         additionalOptions = ''
           Option "PalmDetection" "True"
         '';
@@ -142,6 +142,7 @@
     nushell
     git
     helix
+    arandr
   ];
 
   users.users.nous = {

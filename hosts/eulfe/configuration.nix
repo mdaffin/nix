@@ -6,4 +6,7 @@
     ./disko-configuration.nix
     ../../system/common.nix
   ];
+  networking = {
+    hostName = "eulfe";
+  };
 }

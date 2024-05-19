@@ -12,8 +12,22 @@
       url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nur.url = github:nix-community/NUR;
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
-  outputs = { self, nixpkgs, nixpkgs-unstable, disko, nixos-hardware, home-manager, ... }:
+  outputs = {
+    self,
+    nixpkgs,
+    nixpkgs-unstable,
+    disko,
+    nixos-hardware,
+    home-manager,
+    nur,
+    ...
+  }:
   let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -24,12 +38,17 @@
       inherit system;
       config.allowUnfree = true;
     };
+    # firefox-addons = import firefox-addons {
+    #   inherit system;
+    # };
+    # addons = pkgs.nur.repos.rycee.firefox-addons;
     lib = nixpkgs.lib;
   in {
     nixosConfigurations = {
       eulfe = lib.nixosSystem {
         inherit system;
         modules = [
+          nur.nixosModules.nur
           ./hosts/eulfe/configuration.nix
           disko.nixosModules.disko
           home-manager.nixosModules.home-manager {
@@ -45,7 +64,9 @@
       lucal = lib.nixosSystem {
         inherit system;
         modules = [
+          nur.nixosModules.nur
           ./hosts/lucal/configuration.nix
+          ./system/hidpi.nix
           disko.nixosModules.disko
           nixos-hardware.nixosModules.dell-xps-13-9350
           nixos-hardware.nixosModules.common-hidpi
