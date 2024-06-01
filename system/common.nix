@@ -13,23 +13,22 @@
       dates = "daily";
       options = "--delete-older-than 7d";
     };
+    package = pkgs.nixFlakes;
+    extraOptions = "experimental-features = nix-command flakes";
   };
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
-
     supportedFilesystems = [ "bcachefs" ];
   };
 
-  networking = {
-    networkmanager.enable = true;
-  };
+  networking.networkmanager.enable = true;
 
   services.avahi = {
     enable = true;
-    nssmdns = true;
+    nssmdns4 = true;
     publish = {
       enable = true;
       addresses = true;
@@ -60,37 +59,34 @@
     LC_TIME = "en_GB.UTF-8";
   };
 
-  services.udisks2.enable = true;
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.pathsToLink = [ "/libexec" ];
 
-  environment.pathsToLink = [ "/libexec" ]; # links /libexec from derivations to /run/current-system/sw
-  services.xserver = {
-    enable = true;
-
-    desktopManager.xterm.enable = false;
-    displayManager = {
-      autoLogin.enable = true;
-      autoLogin.user = "nous";
-      defaultSession = "none+i3";
-      lightdm = {
-        enable = true;
-        greeter.enable = false;
-      };
-    };
-    windowManager = {
-      i3 = {
+  services = {
+    udisks2.enable = true;
+    xserver = {
+      enable = true;
+      desktopManager.xterm.enable = false;
+      windowManager.i3 = {
         enable = true;
         package = pkgs.i3-gaps;
         extraPackages = [];
       };
+      displayManager.lightdm = {
+        enable = true;
+        greeter.enable = false;
+      };
+      xkb.layout = "gb";
     };
-    layout = "gb";
+    displayManager = {
+      autoLogin.enable = true;
+      autoLogin.user = "nous";
+      defaultSession = "none+i3";
+    };
     libinput = {
       enable = true;
-      mouse = {
-        accelProfile = "flat";
-      };
+      mouse.accelProfile = "flat";
       touchpad = {
         tapping = false;
         disableWhileTyping = true;
@@ -128,7 +124,6 @@
     };
   };
   services.blueman.enable = true;
-
   services.printing.enable = true;
 
   nixpkgs.config = {
@@ -150,11 +145,6 @@
     description = "nous";
     extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.nushell;
-  };
-
-  nix = {
-    package = pkgs.nixFlakes;
-    extraOptions = "experimental-features = nix-command flakes";
   };
 
   # This value determines the NixOS release from which the default
