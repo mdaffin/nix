@@ -13,7 +13,7 @@
       dates = "daily";
       options = "--delete-older-than 7d";
     };
-    package = pkgs.nixFlakes;
+    package = pkgs.nixVersions.stable;
     extraOptions = "experimental-features = nix-command flakes";
   };
 
@@ -103,7 +103,6 @@
 
   console.keyMap = "uk";
 
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {

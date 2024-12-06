@@ -1,7 +1,7 @@
 {
   description = "Basic system config";
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-24.05";
+    nixpkgs.url = "nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     disko = {
       url = "github:nix-community/disko";
@@ -9,7 +9,7 @@
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nur.url = github:nix-community/NUR;
@@ -56,7 +56,7 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               users.nous = import ./hosts/eulfe/home.nix;
-              extraSpecialArgs = { inherit unstable; username = "nous"; nixosVersion = "24.05"; };
+              extraSpecialArgs = { inherit unstable; username = "nous"; nixosVersion = "24.11"; };
             };
           }
         ];
@@ -75,7 +75,7 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               users.nous = import ./hosts/lucal/home.nix;
-              extraSpecialArgs = { inherit unstable; username = "nous"; nixosVersion = "24.05"; };
+              extraSpecialArgs = { inherit unstable; username = "nous"; nixosVersion = "24.11"; };
             };
           }
         ];
