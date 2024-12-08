@@ -99,7 +99,7 @@
     pavucontrol
     discord
     vesktop
-    cinnamon.nemo
+    nemo
   ];
 
   xdg.desktopEntries = {
