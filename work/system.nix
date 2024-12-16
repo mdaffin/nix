@@ -6,8 +6,6 @@
     stateVersion = 5;
   };
 
-  programs.zsh.enable = true;
-  # users.users.root.shell = pkgs.zsh;
   programs.gnupg.agent = {
      enable = true;
      enableSSHSupport = true;
@@ -34,7 +32,6 @@
     golangci-lint
     google-cloud-sdk
     gopls
-    grml-zsh-config
     helix
     jfrog-cli
     jq
@@ -73,6 +70,5 @@
     wezterm
     yq
     yubikey-manager
-    zsh
   ];
 }
