@@ -40,31 +40,25 @@
 
         modules = [
           ./core.nix
-          ./legacy.nix
-          # ./homebrew.nix
           ./system.nix
 
           home-manager.darwinModules.home-manager
           (
            { config, ... }:
            {
-             home-manager = {
-               useGlobalPkgs = true;
-               useUserPackages = true;
-               extraSpecialArgs = specialArgs;
-
-               users.${username} = {
-                 imports = [ ./home.nix ];
-                 home.username = username;
-               };
-             };
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = specialArgs;
+              users.${username} = {
+                imports = [ ./home.nix ];
+                home.username = username;
+              };
+            };
 
               users.users.${username} = {
                 home = "/Users/${username}";
               };
-
-              # networking.hostName = hostname;
-              # networking.computerName = config.networking.hostName;
            }
           )
         ];

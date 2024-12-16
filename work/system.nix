@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 # This section apply settings to the system configuration only available on macOS
 # see <https://daiderd.com/nix-darwin/manual/index.html#sec-options> for more options
 {
@@ -7,69 +7,71 @@
   };
 
   programs.zsh.enable = true;
+  # users.users.root.shell = pkgs.zsh;
   programs.gnupg.agent = {
      enable = true;
      enableSSHSupport = true;
   };
 
   environment.systemPackages = with pkgs; [ 
-    virtualenv
     alacritty
-    wezterm
     awscli2
     bottom
     carapace
-    coreutils
-    diffr
-    delta
-    rustup
     cargo-outdated
+    coreutils
+    darwin.apple_sdk.frameworks.AppKit
+    darwin.apple_sdk.frameworks.Security
+    delta
+    diffr
     eza
     fd
     fzf
     gh
     git
-    tailwindcss
-    templ
     gnupg
-    darwin.apple_sdk.frameworks.Security
-    libgit2
-    openssl
-    openssl.dev
-    perl
-    kotlin-language-server
-    darwin.apple_sdk.frameworks.AppKit
-    libiconv
-    pkg-config
     go
-    gopls
-    oras
-    trivy
-    google-cloud-sdk
-    grml-zsh-config
     golangci-lint
+    google-cloud-sdk
+    gopls
+    grml-zsh-config
     helix
     jfrog-cli
     jq
-    yq
     just
-    shellcheck
     k9s
     kdash
+    kotlin-language-server
     kubernetes-helm
     kustomize
-    nushell
-    pinentry_mac
-    python3
-    ripgrep
+    libgit2
+    libiconv
     nerd-fonts.fira-code
     nerd-fonts.fira-mono
+    nixfmt-rfc-style
+    nushell
+    openssl
+    openssl.dev
+    oras
+    perl
+    pinentry_mac
+    pkg-config
+    python3
+    ripgrep
+    rustup
     sd
+    shellcheck
     skhd
     starship
+    tailwindcss
+    templ
     terraform
     terraform-lsp
+    trivy
+    virtualenv
     watchexec
+    wezterm
+    yq
     yubikey-manager
     zsh
   ];
