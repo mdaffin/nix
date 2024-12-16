@@ -1,10 +1,10 @@
-{ config, lib, pkgs, unstable, ... }:
+{ config, lib, pkgs, ... }:
 {
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [ 
     virtualenv
-    unstable.alacritty
+    alacritty
     wezterm
     awscli2
     bottom
@@ -20,7 +20,7 @@
     gh
     git
     tailwindcss
-    unstable.templ
+    templ
     gnupg
     darwin.apple_sdk.frameworks.Security
     libgit2
@@ -31,14 +31,14 @@
     darwin.apple_sdk.frameworks.AppKit
     libiconv
     pkg-config
-    unstable.go
-    unstable.gopls
-    unstable.oras
-    unstable.trivy
+    go
+    gopls
+    oras
+    trivy
     google-cloud-sdk
     grml-zsh-config
     golangci-lint
-    unstable.helix
+    helix
     jfrog-cli
     jq
     yq
@@ -48,16 +48,17 @@
     kdash
     kubernetes-helm
     kustomize
-    unstable.nushell
+    nushell
     pinentry_mac
-    unstable.python3
+    python3
     ripgrep
-    nerdfonts
+    nerd-fonts.fira-code
+    nerd-fonts.fira-mono
     sd
     skhd
     starship
-    unstable.terraform
-    unstable.terraform-lsp
+    terraform
+    terraform-lsp
     watchexec
     yubikey-manager
     zsh

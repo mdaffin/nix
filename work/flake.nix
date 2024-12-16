@@ -2,11 +2,10 @@
   description = "A simple darwin flake using Aux and home-manager";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-24.05-darwin";
-    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -17,7 +16,7 @@
   };
 
   outputs =
-    inputs@{ darwin, home-manager, nixpkgs, nixpkgs-unstable, ... }:
+    inputs@{ darwin, home-manager, nixpkgs, ... }:
     let
       system = "aarch64-darwin";
 
@@ -28,11 +27,6 @@
         inherit inputs;
 
         pkgs = import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-        };
-
-        unstable = import nixpkgs-unstable {
           inherit system;
           config.allowUnfree = true;
         };
