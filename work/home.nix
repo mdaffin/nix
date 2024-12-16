@@ -6,4 +6,8 @@
   };
 
   programs.home-manager.enable = true;
+
+  programs.nushell = {
+    enable = true;
+  };
 }
