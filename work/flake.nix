@@ -13,10 +13,12 @@
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    mac-app-util.url = "github:hraban/mac-app-util";
   };
 
   outputs =
-    inputs@{ darwin, home-manager, nixpkgs, ... }:
+    inputs@{ nixpkgs, home-manager, darwin, mac-app-util, ... }:
     let
       system = "aarch64-darwin";
 
@@ -37,6 +39,7 @@
         inherit specialArgs;
 
         modules = [
+          mac-app-util.darwinModules.default
           ./core.nix
           ./system.nix
 
@@ -46,6 +49,7 @@
               useUserPackages = true;
               extraSpecialArgs = specialArgs;
               users.${username} = import ./home;
+              sharedModules = [mac-app-util.homeManagerModules.default];
             };
           }
         ];

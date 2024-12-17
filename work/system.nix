@@ -25,19 +25,13 @@
   };
 
   environment.systemPackages = with pkgs; [ 
-    alacritty
     awscli2
-    bottom
-    carapace
     cargo-outdated
     coreutils
     darwin.apple_sdk.frameworks.AppKit
     darwin.apple_sdk.frameworks.Security
     delta
     diffr
-    eza
-    fd
-    fzf
     gh
     git
     gnupg
@@ -47,7 +41,6 @@
     gopls
     helix
     jfrog-cli
-    jq
     just
     k9s
     kdash
@@ -57,7 +50,6 @@
     libgit2
     libiconv
     nixfmt-rfc-style
-    nushell
     openssl
     openssl.dev
     oras
@@ -65,12 +57,9 @@
     pinentry_mac
     pkg-config
     python3
-    ripgrep
     rustup
-    sd
     shellcheck
     skhd
-    starship
     tailwindcss
     templ
     terraform
@@ -79,7 +68,6 @@
     virtualenv
     watchexec
     wezterm
-    yq
     yubikey-manager
   ];
 
@@ -87,8 +75,10 @@
     packages = with pkgs; [
       material-design-icons
       font-awesome
+      nerd-fonts.symbols-only
       nerd-fonts.fira-code
       nerd-fonts.fira-mono
+      nerd-fonts.jetbrains-mono
     ];
   };
 }

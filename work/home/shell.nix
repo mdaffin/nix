@@ -1,5 +1,18 @@
-{ ... }:
+{ pkgs, ... }:
 {
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      terminal.shell.program = "nu";
+      font.normal.family = "JetbrainsMono Nerd Font";
+      hints.enabled = [{
+          action = "Copy";
+          post_processing = true;
+          regex = "STAR-[0-9]+";
+      }];
+    };
+  };
+
   programs.nushell = {
     enable = true;
     extraConfig = ''
@@ -37,19 +50,17 @@
     enableNushellIntegration = true;
 
     settings = {
-      # character = {
-      #   success_symbol = "[›](bold green)";
-      #   error_symbol = "[›](bold red)";
-      # };
-      # aws = {
-      #   symbol = "🅰 ";
-      # };
-      # gcloud = {
-      #   # do not show the account/project's info
-      #   # to avoid the leak of sensitive information when sharing the terminal
-      #   format = "on [$symbol$active(\($region\))]($style) ";
-      #   symbol = "🅶 ️";
-      # };
     };
   };
+
+  programs.ripgrep.enable = true;
+  programs.bottom.enable = true;
+  programs.fd.enable = true;
+  programs.fzf.enable = true;
+  programs.jq.enable = true;
+
+  home.packages = with pkgs; [
+    sd
+    yq
+  ];
 }
