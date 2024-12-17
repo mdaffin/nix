@@ -24,16 +24,14 @@
       hostname = "POyxSJFtfKVY6WA==";
 
       specialArgs = {
-        inherit inputs;
+        inherit inputs username hostname;
 
         pkgs = import nixpkgs {
           inherit system;
           config.allowUnfree = true;
         };
       };
-
-    in
-    {
+    in {
       darwinConfigurations.work = darwin.lib.darwinSystem {
         inherit system;
         inherit specialArgs;
@@ -42,25 +40,14 @@
           ./core.nix
           ./system.nix
 
-          home-manager.darwinModules.home-manager
-          (
-           { config, ... }:
-           {
+          home-manager.darwinModules.home-manager {
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = specialArgs;
-              users.${username} = {
-                imports = [ ./home.nix ];
-                home.username = username;
-              };
+              users.${username} = import ./home;
             };
-
-              users.users.${username} = {
-                home = "/Users/${username}";
-              };
-           }
-          )
+          }
         ];
       };
     };

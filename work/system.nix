@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, username, pkgs, ... }:
 # This section apply settings to the system configuration only available on macOS
 # see <https://daiderd.com/nix-darwin/manual/index.html#sec-options> for more options
 {
@@ -12,13 +12,14 @@
     };
   };
 
+  users.users."${username}".home = "/Users/${username}";
+  nix.settings.trusted-users = [username];
+
   programs.gnupg.agent = {
      enable = true;
      enableSSHSupport = true;
   };
-
   
-
   environment.variables = {
     EDITOR = "hx";
   };

@@ -1,7 +1,8 @@
-{ config, ... }:
+{ username, ... }:
 {
   home = {
-    homeDirectory = "/Users/" + config.home.username;
+    username = username;
+    homeDirectory = "/Users/${username}";
     stateVersion = "25.05";
   };
 
