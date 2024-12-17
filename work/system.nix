@@ -11,6 +11,17 @@
      enableSSHSupport = true;
   };
 
+  environment.sessionVariables = {
+    PATH = [
+      "$HOME/.starling/bin"
+      "$HOME/.starling/opt/bin"
+      "$HOME/.local/bin"
+      "$HOME/.cargo/bin"
+      "/run/current-system/sw/bin"
+      "/nix/var/nix/profiles/default/bin"
+    ];
+  };
+
   environment.systemPackages = with pkgs; [ 
     alacritty
     awscli2

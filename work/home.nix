@@ -9,5 +9,16 @@
 
   programs.nushell = {
     enable = true;
+    extraConfig = ''
+      $env.config = {
+        show_banner: false
+      }
+      use ~/.local/wt
+      use std/dirs shells-aliases *
+    '';
+
+    extraEnv = ''
+      $env.EDITOR = 'hx'
+    '';
   };
 }
