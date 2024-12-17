@@ -1,12 +1,9 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 {
   services.nix-daemon.enable = true;
-
+  nix.package = pkgs.nix;
   nix.settings = {
-    experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
+    experimental-features = [ "nix-command" "flakes" ];
 
     builders-use-substitutes = true;
     substituters = [ "https://nix-community.cachix.org" ];

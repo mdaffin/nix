@@ -4,6 +4,12 @@
 {
   system = {
     stateVersion = 5;
+    activationScripts.postUserActivation.text = ''
+      /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+    '';
+    defaults = {
+      menuExtraClock.Show24Hour = true;
+    };
   };
 
   programs.gnupg.agent = {
@@ -11,15 +17,10 @@
      enableSSHSupport = true;
   };
 
-  environment.sessionVariables = {
-    PATH = [
-      "$HOME/.starling/bin"
-      "$HOME/.starling/opt/bin"
-      "$HOME/.local/bin"
-      "$HOME/.cargo/bin"
-      "/run/current-system/sw/bin"
-      "/nix/var/nix/profiles/default/bin"
-    ];
+  
+
+  environment.variables = {
+    EDITOR = "hx";
   };
 
   environment.systemPackages = with pkgs; [ 
@@ -54,8 +55,6 @@
     kustomize
     libgit2
     libiconv
-    nerd-fonts.fira-code
-    nerd-fonts.fira-mono
     nixfmt-rfc-style
     nushell
     openssl
@@ -82,4 +81,13 @@
     yq
     yubikey-manager
   ];
+
+  fonts = {
+    packages = with pkgs; [
+      material-design-icons
+      font-awesome
+      nerd-fonts.fira-code
+      nerd-fonts.fira-mono
+    ];
+  };
 }

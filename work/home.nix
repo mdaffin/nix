@@ -10,15 +10,20 @@
   programs.nushell = {
     enable = true;
     extraConfig = ''
+      use std/dirs shells-aliases *
       $env.config = {
         show_banner: false
       }
-      use ~/.local/wt
-      use std/dirs shells-aliases *
     '';
-
     extraEnv = ''
-      $env.EDITOR = 'hx'
+      $env.PATH = ($env.PATH | split row (char esep) | prepend [
+          /Users/michael.daffin/.local/bin,
+          /Users/michael.daffin/.cargo/bin,
+          # /run/current-system/sw/bin,
+          # /nix/var/nix/profiles/default/bin,
+          /Users/michael.daffin/.starling/bin,
+          /Users/michael.daffin/.starling/opt/bin,
+      ])
     '';
   };
 }
