@@ -14,6 +14,10 @@
     '';
     defaults = {
       menuExtraClock.Show24Hour = true;
+      dock.autohide = true;
+      dock.mru-spaces = false;
+      screencapture.location = "~/Pictures/screenshots";
+      finder.AppleShowAllExtensions = true;
     };
   };
 
