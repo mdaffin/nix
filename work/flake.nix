@@ -18,7 +18,13 @@
   };
 
   outputs =
-    inputs@{ nixpkgs, home-manager, darwin, mac-app-util, ... }:
+    inputs@{
+      nixpkgs,
+      home-manager,
+      darwin,
+      mac-app-util,
+      ...
+    }:
     let
       system = "aarch64-darwin";
 
@@ -33,7 +39,9 @@
           config.allowUnfree = true;
         };
       };
-    in {
+    in
+    {
+      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-rfc-style;
       darwinConfigurations.work = darwin.lib.darwinSystem {
         inherit system;
         inherit specialArgs;
@@ -43,13 +51,14 @@
           ./core.nix
           ./system.nix
 
-          home-manager.darwinModules.home-manager {
+          home-manager.darwinModules.home-manager
+          {
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = specialArgs;
               users.${username} = import ./home;
-              sharedModules = [mac-app-util.homeManagerModules.default];
+              sharedModules = [ mac-app-util.homeManagerModules.default ];
             };
           }
         ];
