@@ -5,11 +5,37 @@
     settings = {
       terminal.shell.program = "nu";
       font.normal.family = "JetbrainsMono Nerd Font";
-      hints.enabled = [{
+      window = {
+        option_as_alt = "Both";
+      };
+      hints.enabled = [
+        {
+          command = "open";
+          post_processing = true;
+          regex = ''(magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-<>"\\s{-}\\^⟨⟩`]+'';
+          binding = {
+            key = "U";
+            mods = "Control|Shift";
+          };
+          mouse = {
+            enabled = true;
+            mods = "Control";
+          };
+        }
+        {
           action = "Copy";
           post_processing = true;
           regex = "STAR-[0-9]+";
-      }];
+          binding = {
+            key = "A";
+            mods = "Control|Shift";
+          };
+          mouse = {
+            enabled = true;
+            mods = "Control";
+          };
+        }
+      ];
     };
   };
 
