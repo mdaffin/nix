@@ -25,8 +25,6 @@
       $env.PATH = ($env.PATH | split row (char esep) | prepend [
           /Users/michael.daffin/.local/bin,
           /Users/michael.daffin/.cargo/bin,
-          # /run/current-system/sw/bin,
-          /nix/var/nix/profiles/default/bin,
           /Users/michael.daffin/.starling/bin,
           /Users/michael.daffin/.starling/opt/bin,
       ])
