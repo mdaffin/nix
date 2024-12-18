@@ -39,11 +39,7 @@
     coreutils
     darwin.apple_sdk.frameworks.AppKit
     darwin.apple_sdk.frameworks.Security
-    delta
     diffr
-    gh
-    git
-    gnupg
     go
     golangci-lint
     google-cloud-sdk
@@ -58,7 +54,6 @@
     kustomize
     libgit2
     libiconv
-    nixfmt-rfc-style
     openssl
     openssl.dev
     oras
@@ -76,7 +71,6 @@
     trivy
     virtualenv
     watchexec
-    wezterm
     yubikey-manager
   ];
 
