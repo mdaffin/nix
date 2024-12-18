@@ -2,6 +2,7 @@
 {
   imports = [
     ./shell.nix
+    ./git.nix
   ];
 
   home = {
@@ -11,5 +12,4 @@
   };
 
   programs.home-manager.enable = true;
-
 }
