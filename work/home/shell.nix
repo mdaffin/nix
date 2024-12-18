@@ -48,6 +48,7 @@
       }
     '';
     extraEnv = ''
+      $env.EDITOR = "hx"
       $env.PATH = ($env.PATH | split row (char esep) | prepend [
           /Users/michael.daffin/.local/bin,
           /Users/michael.daffin/.cargo/bin,
