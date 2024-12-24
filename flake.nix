@@ -48,7 +48,7 @@
       eulfe = lib.nixosSystem {
         inherit system;
         modules = [
-          nur.nixosModules.nur
+          nur.modules.nixos.default
           ./hosts/eulfe/configuration.nix
           disko.nixosModules.disko
           home-manager.nixosModules.home-manager {
@@ -64,7 +64,7 @@
       lucal = lib.nixosSystem {
         inherit system;
         modules = [
-          nur.nixosModules.nur
+          nur.modules.nixos.default
           ./hosts/lucal/configuration.nix
           ./system/hidpi.nix
           disko.nixosModules.disko
