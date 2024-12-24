@@ -103,7 +103,13 @@
 
   console.keyMap = "uk";
 
-  hardware.pulseaudio.enable = false;
+  hardware.pulseaudio = {
+    enable = false;
+    package = pkgs.pulseaudioFull;
+    extraConfig = "
+      load-module module-switch-on-connect
+    ";
+  };
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -114,10 +120,9 @@
 
   hardware.bluetooth = {
     enable = true;
-    powerOnBoot = false;
+    powerOnBoot = true;
     settings = {
       General = {
-        Enable = "Source,Sink,Media,Socket";
         Experimental = true;
       };
     };
