@@ -1,4 +1,4 @@
-{ config, pkgs, unstable, username, nixosVersion, ... }:
+{ config, pkgs, username, nixosVersion, ... }:
 
 {
   imports = [
@@ -8,8 +8,8 @@
 
   home = {
     username = username;
-    homeDirectory = "/home/" + username;
-    # preferXdgDirectories = true; # enable on 24.05
+    homeDirectory = "/home/${username}";
+    preferXdgDirectories = true;
     sessionPath = [
       "$HOME/.local/bin"
     ];
@@ -22,7 +22,6 @@
 
     carapace = {
       enable = true;
-      package = unstable.carapace;
     };
 
     starship = {
@@ -68,7 +67,6 @@
 
     helix = {
       enable = true;
-      package = unstable.helix;
       defaultEditor = true;
       settings = {
         theme = "bogster";
