@@ -25,8 +25,6 @@
   # amdgpu had loaded; load it in stage 1 so the display exists by then.
   hardware.amdgpu.initrd.enable = true;
 
-  services.keybase.enable = true;
-
   services.displayManager.autoLogin = {
     enable = true;
     user = "nous";
