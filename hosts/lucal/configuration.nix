@@ -20,4 +20,9 @@
   networking = {
     hostName = "lucal";
   };
+
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = "nous";
+  };
 }
