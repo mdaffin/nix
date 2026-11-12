@@ -1,0 +1,59 @@
+name: revert-lock
+
+# Run from the Actions tab (Run workflow) when a flake.lock update breaks
+# something. Puts flake.lock back to how it was before the update and pushes
+# that to main, so hosts upgrade back to the last good lock. Only flake.lock is
+# touched, so other commits made since the update are kept.
+#
+# With no input it reverts the latest update to flake.lock, skipping earlier
+# reverts, so running it twice does nothing the second time. Give a commit to
+# revert an older update instead.
+#
+# The next scheduled update-lock run will update the lock again.
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit:
+        description: "Commit that updated flake.lock (default: the latest one)"
+        required: false
+
+jobs:
+  revert:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Revert flake.lock
+        env:
+          COMMIT: ${{ inputs.commit }}
+        run: |
+          set -euo pipefail
+
+          if [ -n "$COMMIT" ]; then
+            target=$(git rev-parse --verify "$COMMIT^{commit}")
+          else
+            target=$(git log --format='%H %s' -- flake.lock | grep -v ' Revert ' | head -1 | cut -d' ' -f1)
+          fi
+          if [ -z "$target" ]; then
+            echo "No flake.lock update found to revert" >&2
+            exit 1
+          fi
+          if git diff --quiet "$target^" "$target" -- flake.lock; then
+            echo "$target did not change flake.lock" >&2
+            exit 1
+          fi
+
+          git checkout "$target^" -- flake.lock
+          if git diff --cached --quiet -- flake.lock; then
+            echo "flake.lock already matches the state before $target, nothing to do"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Revert flake.lock update ${target:0:7}" flake.lock
+          git push

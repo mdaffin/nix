@@ -1,0 +1,50 @@
+name: update-lock
+
+# Updates flake.lock weekly and pushes it straight to main, but only if every
+# check passes against the updated lock. If anything fails nothing is pushed
+# and the run fails, so the hosts keep upgrading from the last good lock.
+
+on:
+  schedule:
+    - cron: "0 3 * * 6"
+  workflow_dispatch:
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - run: nix flake update
+      - run: nix flake check
+      - name: Evaluate hosts
+        run: |
+          for host in niver eulfe lucal; do
+            nix build --dry-run ".#nixosConfigurations.$host.config.system.build.toplevel"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: flake-lock
+          path: flake.lock
+
+  push:
+    needs: linux
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: flake-lock
+      - name: Commit and push
+        run: |
+          if git diff --quiet flake.lock; then
+            echo "flake.lock is already up to date"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update flake.lock" flake.lock
+          git push
