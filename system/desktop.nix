@@ -13,9 +13,8 @@ _: {
     udisks2.enable = true;
     desktopManager.cosmic.enable = true;
     displayManager = {
-      # autoLogin.enable = true;
-      # autoLogin.user = "nous";
-      # defaultSession = "cosmic";
+      autoLogin.enable = true;
+      autoLogin.user = "nous";
       cosmic-greeter.enable = true;
     };
     libinput = {
