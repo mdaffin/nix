@@ -21,9 +21,12 @@
     hostName = "niver";
   };
 
-  # The service runs the keybase daemon the GUI talks to.
   services.keybase.enable = true;
-  environment.systemPackages = [ pkgs.keybase-gui ];
+
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = "nous";
+  };
 
   services.flatpak.enable = true;
   systemd.services.flatpak-repo = {
