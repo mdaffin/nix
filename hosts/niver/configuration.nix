@@ -6,6 +6,7 @@
     ./disko-configuration.nix
     ./XB270HU.nix
     ../../system/audio.nix
+    ../../system/backup.nix
     ../../system/bluetooth.nix
     ../../system/common.nix
     ../../system/containers.nix
