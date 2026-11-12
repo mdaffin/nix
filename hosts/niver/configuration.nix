@@ -21,6 +21,10 @@
     hostName = "niver";
   };
 
+  # Autologin starts the compositor as soon as greetd is up, which was before
+  # amdgpu had loaded; load it in stage 1 so the display exists by then.
+  hardware.amdgpu.initrd.enable = true;
+
   services.keybase.enable = true;
 
   services.displayManager.autoLogin = {
