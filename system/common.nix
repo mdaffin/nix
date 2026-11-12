@@ -27,6 +27,7 @@
     nushell
     git
     helix
+    pciutils
     dig
     ncdu
   ];
