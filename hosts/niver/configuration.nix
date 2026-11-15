@@ -6,6 +6,7 @@
     ./disko-configuration.nix
     ./XB270HU.nix
     ../../system/audio.nix
+    ../../system/ai.nix
     # ../../system/backup.nix
     ../../system/bluetooth.nix
     ../../system/common.nix
@@ -17,6 +18,7 @@
   # Only change after reading the release notes, never in a routine update.
   system.stateVersion = "24.05";
   home-manager.users.nous.home.stateVersion = "24.11";
+  home-manager.users.nous.imports = [ ../../user/ai.nix ];
 
   networking = {
     hostName = "niver";
