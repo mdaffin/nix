@@ -70,7 +70,6 @@
       "--unshare-all"
       "--share-net"
       "--die-with-parent"
-      "--new-session"
       "--clearenv"
       "--dev" "/dev"
       "--proc" "/proc"
