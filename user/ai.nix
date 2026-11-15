@@ -17,6 +17,7 @@
     ripgrep
     diffutils
     bash
+    nushell
     coreutils
   ];
 
@@ -60,18 +61,24 @@
 
   agent = agents.${cfg.name};
 
+  # Tools available in the sandbox. Nothing from the host system profile is
+  # visible; project-specific tools come from the project flake dev shell.
+  basePath = lib.makeBinPath ([agent.package] ++ agentTools);
+
   # Fixed bwrap arguments as a nushell list literal (JSON is valid nu syntax).
   bwrapArgs = builtins.toJSON ([
       "--unshare-all"
       "--share-net"
       "--die-with-parent"
       "--new-session"
+      "--clearenv"
       "--dev" "/dev"
       "--proc" "/proc"
       "--tmpfs" "/tmp"
       "--tmpfs" "/run"
       "--ro-bind" "/nix/store" "/nix/store"
-      "--ro-bind" "/run/current-system" "/run/current-system"
+      "--symlink" "${pkgs.bash}/bin/sh" "/bin/sh"
+      "--symlink" "${pkgs.coreutils}/bin/env" "/usr/bin/env"
       "--ro-bind-try" "/etc/static" "/etc/static"
       "--ro-bind-try" "/etc/passwd" "/etc/passwd"
       "--ro-bind-try" "/etc/group" "/etc/group"
@@ -86,7 +93,6 @@
     ++ [
       "--chdir" "${sandboxHome}/project"
       "--setenv" "HOME" sandboxHome
-      "--setenv" "PATH" "${lib.makeBinPath ([agent.package] ++ agentTools)}:/run/current-system/sw/bin"
     ]
     ++ agent.env);
 
@@ -108,7 +114,41 @@
       let bwrap_args = ${bwrapArgs}
       let agent_args = ${builtins.toJSON agent.args}
 
-      let cmd = [...$bwrap_args "--bind" $project "${sandboxHome}/project" "${agent.bin}" ...$agent_args ...$args]
+      # Pass terminal settings through; --clearenv drops everything else.
+      let passthrough = ["TERM" "COLORTERM" "LANG" "LC_ALL" "TZ"]
+        | where {|n| $n in $env}
+        | each {|n| ["--setenv" $n ($env | get $n)]}
+        | flatten
+
+      # Realise the project flake dev shell outside the sandbox (the sandbox
+      # has no nix daemon) and hand its environment in. Only store paths are
+      # kept on PATH so host locations never leak in.
+      let skip = ["HOME" "PATH" "PWD" "OLDPWD" "SHELL" "TMPDIR" "TMP" "TEMP" "TEMPDIR" "NIX_BUILD_TOP" "NIX_STORE" "TERM" "SHLVL" "_"]
+      let dev = if ($project | path join "flake.nix" | path exists) {
+        try {
+          ^nix print-dev-env --json $project | from json | get variables
+        } catch {
+          print -e "warning: could not load the project dev shell; continuing without it"
+          {}
+        }
+      } else { {} }
+      let dev_vars = $dev
+        | transpose name spec
+        | where {|v| $v.spec.type == "exported" and ($v.name not-in $skip) and (($v.spec.value | describe) == "string")}
+      let dev_args = $dev_vars
+        | each {|v| ["--setenv" $v.name $v.spec.value]}
+        | flatten
+      let dev_path = if "PATH" in $dev {
+        $dev.PATH.value | split row ":" | where {|p| $p starts-with "/nix/store/"}
+      } else { [] }
+      let path = ($dev_path | append "${basePath}" | str join ":")
+
+      let cmd = [
+        ...$passthrough ...$dev_args ...$bwrap_args
+        "--setenv" "PATH" $path
+        "--bind" $project "${sandboxHome}/project"
+        "${agent.bin}" ...$agent_args ...$args
+      ]
       exec ${pkgs.bubblewrap}/bin/bwrap ...$cmd
     }
   '';
