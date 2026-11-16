@@ -90,7 +90,6 @@
     ]
     ++ agent.binds
     ++ [
-      "--chdir" "${sandboxHome}/project"
       "--setenv" "HOME" sandboxHome
     ]
     ++ agent.env);
@@ -145,7 +144,8 @@
       let cmd = [
         ...$passthrough ...$dev_args ...$bwrap_args
         "--setenv" "PATH" $path
-        "--bind" $project "${sandboxHome}/project"
+        "--bind" $project $project
+        "--chdir" $project
         "${agent.bin}" ...$agent_args ...$args
       ]
       exec ${pkgs.bubblewrap}/bin/bwrap ...$cmd
