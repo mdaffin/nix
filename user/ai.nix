@@ -48,7 +48,7 @@
       bin = "${pkgs.opencode}/bin/opencode";
       binds = ["--ro-bind" "${opencodeConfig}" "${sandboxHome}/.config/opencode/opencode.json"];
       env = [];
-      args = [];
+      args = ["--standalone"]; # private per-instance server, no port collision
     };
     aider = {
       package = pkgs.aider-chat;
