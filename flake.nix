@@ -86,6 +86,17 @@
             overlays = [ rust-overlay.overlays.default ];
           }
         );
+
+      # Build NixOS configurations for all hosts.
+      nixosConfigurations = {
+        iso = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [ ./hosts/iso/configuration.nix ];
+        };
+        niver = mkNixos { hostname = "niver"; };
+        eulfe = mkNixos { hostname = "eulfe"; };
+        lucal = mkNixos { hostname = "lucal"; };
+      };
     in
     {
       lib = { inherit forEachSystem rustShell; };
@@ -158,14 +169,22 @@
         '';
       });
 
-      nixosConfigurations = {
-        iso = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
-          modules = [ ./hosts/iso/configuration.nix ];
-        };
-        niver = mkNixos { hostname = "niver"; };
-        eulfe = mkNixos { hostname = "eulfe"; };
-        lucal = mkNixos { hostname = "lucal"; };
-      };
+      # Install-relevant disk info for the installer script, derived from
+      # each host's disko configuration. Partition layout (ESP, root,
+      # encryptedSwap) is shared across all hosts, so the installer only
+      # needs device paths and appends partition numbers. Disk names are
+      # enumerated from `config.disko.devices.disk` automatically.
+      installerInfo = let
+        mkInstallerInfo = host:
+          let
+            diskoCfg = nixosConfigurations.${host}.config.disko.devices;
+            diskNames = nixpkgs.lib.attrNames diskoCfg.disk;
+          in
+          nixpkgs.lib.genAttrs diskNames (name: diskoCfg.disk.${name}.device);
+        installerHosts = nixpkgs.lib.lists.remove "iso" (nixpkgs.lib.attrNames nixosConfigurations);
+      in
+      nixpkgs.lib.filterAttrs (_: v: v != null) (nixpkgs.lib.genAttrs installerHosts (host:
+        if nixosConfigurations.${host}.config ? disko then mkInstallerInfo host else null
+      ));
     };
 }
