@@ -186,5 +186,9 @@
       nixpkgs.lib.filterAttrs (_: v: v != null) (nixpkgs.lib.genAttrs installerHosts (host:
         if nixosConfigurations.${host}.config ? disko then mkInstallerInfo host else null
       ));
+
+      # Exposed in the let block for installerInfo; also needed by
+      # nixos-rebuild/disko/nixos-install to resolve .#<host>.
+      nixosConfigurations = nixosConfigurations;
     };
 }
