@@ -88,22 +88,18 @@ The image has no copy of the repo inside it. Install straight from GitHub (see b
 
 ## Install
 
-Boot the installer, then:
-
-```nushell
-sudo -i
-disko --mode format --flake github:mdaffin/nix#HOSTNAME
-```
-
-disko cannot create encrypted bcachefs, so the root partition is formatted by
+**Note**: Disko cannot create encrypted bcachefs, so the root partition is formatted by
 hand (adjust the devices to the host's layout in `hosts/<name>/disko-configuration.nix`):
 
+Boot the installer, then:
+
+
 ```bash
+sudo -i
+let hostname = "<HOST>"
+disko --mode format --flake github:mdaffin/nix#($hostname)
 bcachefs format -L root --encrypted --compression=lz4 --background_compression=zstd /dev/sda2
-bcachefs unlock /dev/sda2
-mount /dev/sda2 /mnt
-mkdir /mnt/boot
-mount /dev/sda1 /mnt/boot
+disko --mode mount --flake github:mdaffin/nix#($hostname)
 nixos-install --flake github:mdaffin/nix#HOSTNAME
 ```
 
