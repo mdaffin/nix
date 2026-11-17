@@ -1,0 +1,74 @@
+#!/usr/bin/env nu
+# === NixOS installer script ===
+#
+# Usage (from the live ISO session):
+#   sudo nu install-system
+#   sudo nu install-system --flake /path/to/local/checkout
+#
+# Installs a host from the flake given with --flake, so the same script works
+# against a local checkout or a fork. Defaults to the upstream flake.
+
+# Install a NixOS host from a flake.
+def main [
+  --flake: string = "github:mdaffin/nix"  # flake the hosts come from
+] {
+  if (^id -u | str trim) != "0" {
+    error make { msg: "This script must be run as root (run with sudo)" }
+  }
+
+  let hosts = (
+    nix flake show --json $flake
+    | from json | get nixosConfigurations | keys | where $it != iso | flatten
+  )
+
+  if ($hosts | is-empty) {
+    error make { msg: "No NixOS configurations found (is nix/flake working?)" }
+  }
+
+  print "Available hosts:"
+  let host = $hosts | menu "Choose a host: "
+  print $"Installing to ($host) from ($flake)..."
+
+  # Derive disk device from installerInfo:
+  #   installerInfo = { eulfe = { vdb = "/dev/sda" } }
+  # Take the first disk entry -- single-disk hosts only.
+  let disk_device = (
+    nix flake show --json $"($flake)#($host)"
+    | get attrSet installerInfo | to json -r
+    | jq -r 'to_entries[0].value | to_entries[0].value'
+    | str join "\n"
+  )
+
+  if $disk_device == "" {
+    error make { msg: $"installerInfo not found for ($host)" }
+  }
+
+  let root_part = $"($disk_device)2"
+
+  # 3. Confirm -------------------------------------------------------------------
+  print $"This will erase ($root_part) and install ($host)."
+  let confirm = (input "Type 'yes' to continue: ")
+
+  if $confirm != "yes" {
+    print "Aborted."
+    exit 1
+  }
+
+  # 4. Format --------------------------------------------------------------------
+  print "Formatting partitions..."
+  ^disko --mode format --flake $"($flake)#($host)"
+
+  print $"Formatting bcachefs on ($root_part)..."
+  (^bcachefs format -L root --encrypted
+    --compression=lz4 --background_compression=zstd ($root_part))
+
+  # 5. Mount ---------------------------------------------------------------------
+  print "Mounting..."
+  ^disko --mode mount --flake $"($flake)#($host)"
+
+  # 6. Install -------------------------------------------------------------------
+  print "Running nixos-install..."
+  ^nixos-install --flake $"($flake)#($host)"
+
+  print "Installation complete. Reboot now."
+}

@@ -65,6 +65,10 @@ in
     pkgs.nvme-cli
     pkgs.parted
     pkgs.smartmontools
+    (pkgs.writeNushellApplication {
+      name = "install-system";
+      src = ./install-system;
+    })
   ];
 
   programs.nh.enable = true;
