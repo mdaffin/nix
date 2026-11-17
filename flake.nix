@@ -3,6 +3,9 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # Tracks master, which receives package updates before the nixos-unstable
+    # branch. Used for one-off overrides, e.g. ollama in system/ai.nix.
+    nixpkgs-master.url = "github:NixOS/nixpkgs/master";
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";

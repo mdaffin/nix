@@ -1,7 +1,11 @@
-{pkgs, ...}: {
+{pkgs, inputs, ...}: {
   services.ollama = {
     enable = true;
-    package = pkgs.ollama-rocm; # RX 6800/XT/6900 XT
+    # From nixpkgs master: newer than the nixos-unstable branch.
+    # RX 6800/XT/6900 XT.
+    package =
+      inputs.nixpkgs-master.legacyPackages.${pkgs.stdenv.hostPlatform.system}
+        .ollama-rocm;
     host = "127.0.0.1";
     port = 11434;
     environmentVariables = {
