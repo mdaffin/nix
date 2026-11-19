@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: shivammathur/setup-nix@v1
+      - uses: nix-community/setup-nix@v1
         with:
           nix-version: 2.28.4
           extra-experimental-features: nix-command flakes
