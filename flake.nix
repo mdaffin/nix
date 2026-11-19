@@ -193,18 +193,22 @@
       # encryptedSwap) is shared across all hosts, so the installer only
       # needs device paths and appends partition numbers. Disk names are
       # enumerated from `config.disko.devices.disk` automatically.
-      installerInfo = let
-        mkInstallerInfo = host:
-          let
-            diskoCfg = nixosConfigurations.${host}.config.disko.devices;
-            diskNames = nixpkgs.lib.attrNames diskoCfg.disk;
-          in
-          nixpkgs.lib.genAttrs diskNames (name: diskoCfg.disk.${name}.device);
-        installerHosts = nixpkgs.lib.lists.remove "iso" (nixpkgs.lib.attrNames nixosConfigurations);
-      in
-      nixpkgs.lib.filterAttrs (_: v: v != null) (nixpkgs.lib.genAttrs installerHosts (host:
-        if nixosConfigurations.${host}.config ? disko then mkInstallerInfo host else null
-      ));
+      installerInfo =
+        let
+          mkInstallerInfo =
+            host:
+            let
+              diskoCfg = nixosConfigurations.${host}.config.disko.devices;
+              diskNames = nixpkgs.lib.attrNames diskoCfg.disk;
+            in
+            nixpkgs.lib.genAttrs diskNames (name: diskoCfg.disk.${name}.device);
+          installerHosts = nixpkgs.lib.lists.remove "iso" (nixpkgs.lib.attrNames nixosConfigurations);
+        in
+        nixpkgs.lib.filterAttrs (_: v: v != null) (
+          nixpkgs.lib.genAttrs installerHosts (
+            host: if nixosConfigurations.${host}.config ? disko then mkInstallerInfo host else null
+          )
+        );
 
       # Exposed in the let block for installerInfo; also needed by
       # nixos-rebuild/disko/nixos-install to resolve .#<host>.

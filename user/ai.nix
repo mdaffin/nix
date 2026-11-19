@@ -4,7 +4,8 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.ai.agent;
 
   ollamaUrl = "http://127.0.0.1:11434";
@@ -32,40 +33,58 @@
       directory = *
   '';
 
-  opencodeConfig = pkgs.writeText "opencode.json" (builtins.toJSON {
-    "$schema" = "https://opencode.ai/config.json";
-    model = "ollama/${cfg.model}";
-    provider.ollama = {
-      npm = "@ai-sdk/openai-compatible";
-      name = "Ollama (local)";
-      options.baseURL = "${ollamaUrl}/v1";
-      models.${cfg.model}.name = cfg.model;
-    };
-  });
+  opencodeConfig = pkgs.writeText "opencode.json" (
+    builtins.toJSON {
+      "$schema" = "https://opencode.ai/config.json";
+      model = "ollama/${cfg.model}";
+      provider.ollama = {
+        npm = "@ai-sdk/openai-compatible";
+        name = "Ollama (local)";
+        options.baseURL = "${ollamaUrl}/v1";
+        models.${cfg.model}.name = cfg.model;
+      };
+    }
+  );
 
   # TUI keybindings. ctrl+c stays bound to prompt.clear and
   # session.interrupt; it is only removed from app.exit so the app no
   # longer quits on ctrl+c.
-  opencodeCliConfig = pkgs.writeText "cli.json" (builtins.toJSON {
-    keybinds = {
-      app_exit = ["ctrl+d" "<leader>q"];
-    };
-  });
+  opencodeCliConfig = pkgs.writeText "cli.json" (
+    builtins.toJSON {
+      keybinds = {
+        app_exit = [
+          "ctrl+d"
+          "<leader>q"
+        ];
+      };
+    }
+  );
 
   agents = {
     opencode = {
       package = pkgs.opencode;
       bin = "${pkgs.opencode}/bin/opencode";
-      binds = ["--ro-bind" "${sandboxHome}/.config/opencode" "${sandboxHome}/.config/opencode"];
-      env = [];
-      args = ["--standalone"]; # private per-instance server, no port collision
+      binds = [
+        "--ro-bind"
+        "${sandboxHome}/.config/opencode"
+        "${sandboxHome}/.config/opencode"
+      ];
+      env = [ ];
+      args = [ "--standalone" ]; # private per-instance server, no port collision
     };
     aider = {
       package = pkgs.aider-chat;
       bin = "${pkgs.aider-chat}/bin/aider";
-      binds = [];
-      env = ["--setenv" "OLLAMA_API_BASE" ollamaUrl];
-      args = ["--model" "ollama_chat/${cfg.model}"];
+      binds = [ ];
+      env = [
+        "--setenv"
+        "OLLAMA_API_BASE"
+        ollamaUrl
+      ];
+      args = [
+        "--model"
+        "ollama_chat/${cfg.model}"
+      ];
     };
   };
 
@@ -73,36 +92,70 @@
 
   # Tools available in the sandbox. Nothing from the host system profile is
   # visible; project-specific tools come from the project flake dev shell.
-  basePath = lib.makeBinPath ([agent.package] ++ agentTools);
+  basePath = lib.makeBinPath ([ agent.package ] ++ agentTools);
 
   # Fixed bwrap arguments as a nushell list literal (JSON is valid nu syntax).
-  bwrapArgs = builtins.toJSON ([
+  bwrapArgs = builtins.toJSON (
+    [
       "--unshare-all"
       "--share-net"
       "--die-with-parent"
       "--clearenv"
-      "--dev" "/dev"
-      "--proc" "/proc"
-      "--tmpfs" "/tmp"
-      "--tmpfs" "/run"
-      "--ro-bind" "/nix/store" "/nix/store"
-      "--symlink" "${pkgs.bash}/bin/sh" "/bin/sh"
-      "--symlink" "${pkgs.coreutils}/bin/env" "/usr/bin/env"
-      "--ro-bind-try" "/etc/static" "/etc/static"
-      "--ro-bind-try" "/etc/passwd" "/etc/passwd"
-      "--ro-bind-try" "/etc/group" "/etc/group"
-      "--ro-bind-try" "/etc/resolv.conf" "/etc/resolv.conf"
-      "--ro-bind-try" "/etc/nsswitch.conf" "/etc/nsswitch.conf"
-      "--ro-bind-try" "/etc/hosts" "/etc/hosts"
-      "--ro-bind-try" "/etc/ssl/certs" "/etc/ssl/certs"
-      "--tmpfs" sandboxHome
-      "--ro-bind" "${gitConfig}" "${sandboxHome}/.config/git/config"
+      "--dev"
+      "/dev"
+      "--proc"
+      "/proc"
+      "--tmpfs"
+      "/tmp"
+      "--tmpfs"
+      "/run"
+      "--ro-bind"
+      "/nix/store"
+      "/nix/store"
+      "--symlink"
+      "${pkgs.bash}/bin/sh"
+      "/bin/sh"
+      "--symlink"
+      "${pkgs.coreutils}/bin/env"
+      "/usr/bin/env"
+      "--ro-bind-try"
+      "/etc/static"
+      "/etc/static"
+      "--ro-bind-try"
+      "/etc/passwd"
+      "/etc/passwd"
+      "--ro-bind-try"
+      "/etc/group"
+      "/etc/group"
+      "--ro-bind-try"
+      "/etc/resolv.conf"
+      "/etc/resolv.conf"
+      "--ro-bind-try"
+      "/etc/nsswitch.conf"
+      "/etc/nsswitch.conf"
+      "--ro-bind-try"
+      "/etc/hosts"
+      "/etc/hosts"
+      "--ro-bind-try"
+      "/etc/ssl/certs"
+      "/etc/ssl/certs"
+      "--ro-bind-try"
+      "/sys"
+      "/sys"
+      "--tmpfs"
+      sandboxHome
+      "--ro-bind"
+      "${gitConfig}"
+      "${sandboxHome}/.config/git/config"
     ]
     ++ agent.binds
     ++ [
-      "--setenv" "HOME" sandboxHome
+      "--setenv"
+      "HOME"
+      sandboxHome
     ]
-    ++ agent.env);
+    ++ agent.env
+  );
 
   # Wrap the coding agent in bubblewrap: fresh namespaces, throwaway home, the
   # project directory as the only writable path.
@@ -161,10 +214,14 @@
       exec ${pkgs.bubblewrap}/bin/bwrap ...$cmd
     }
   '';
-in {
+in
+{
   options.ai.agent = {
     name = lib.mkOption {
-      type = lib.types.enum ["opencode" "aider"];
+      type = lib.types.enum [
+        "opencode"
+        "aider"
+      ];
       default = "opencode";
       description = "Which coding agent to install and wrap.";
     };
@@ -204,6 +261,9 @@ in {
       targets.opencode.enable = true;
     };
 
-    home.packages = [agent.package sandbox];
+    home.packages = [
+      agent.package
+      sandbox
+    ];
   };
 }
