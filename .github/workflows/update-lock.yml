@@ -14,11 +14,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: nix-community/cache-nix-action@v2.0.0
+      - uses: cachix/install-nix-action@v31.10.5
         with:
-          nix-version: 2.28.4
-          extra-experimental-features: nix-command flakes
-      - uses: DeterminateSystems/magic-nix-cache-action@main
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+            substituters = https://cache.nixos.org/
+            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
+      - uses: nix-community/cache-nix-action@v7
+        with:
+          # restore and save a cache using this key
+          primary-key: nix-${{ runner.os }}-${{ hashFiles('**/*.nix', '**/flake.lock') }}
+          # if there's no cache hit, restore a cache by this prefix
+          restore-prefixes-first-match: nix-${{ runner.os }}-
+          # collect garbage until the Nix store size (in bytes) is at most this
+          # number before trying to save a new cache; 1G = 1073741824
+          gc-max-store-size-linux: 1G
+          # purge caches created last accessed more than this duration ago
+          purge: true
+          purge-prefixes: nix-${{ runner.os }}-
+          purge-created: 0
+          purge-last-accessed: P1DT12H
+          purge-primary-key: never
       - run: nix flake update
       - run: nix flake check
       - name: Evaluate hosts
