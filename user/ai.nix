@@ -227,7 +227,7 @@ in
     };
     model = lib.mkOption {
       type = lib.types.str;
-      default = "qwen3.8:27b";
+      default = "ornith-1.5:35b";
       description = "Ollama model tag the agent should use. It must be pulled separately with `ollama pull`.";
     };
   };
