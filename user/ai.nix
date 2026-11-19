@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -46,7 +47,7 @@
     opencode = {
       package = pkgs.opencode;
       bin = "${pkgs.opencode}/bin/opencode";
-      binds = ["--ro-bind" "${opencodeConfig}" "${sandboxHome}/.config/opencode/opencode.json"];
+      binds = ["--ro-bind" "${sandboxHome}/.config/opencode" "${sandboxHome}/.config/opencode"];
       env = [];
       args = ["--standalone"]; # private per-instance server, no port collision
     };
@@ -166,6 +167,25 @@ in {
   };
 
   config = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
+    xdg.configFile."opencode/opencode.json".source = "${opencodeConfig}";
+
+    programs.agent-skills = {
+      enable = true;
+
+      sources = {
+        nushell-pro = {
+          input = "nushell-pro";
+          subdir = ".";
+        };
+      };
+
+      skills.enable = [
+        "nushell-pro"
+      ];
+
+      targets.opencode.enable = true;
+    };
+
     home.packages = [agent.package sandbox];
   };
 }

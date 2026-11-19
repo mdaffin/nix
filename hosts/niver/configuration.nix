@@ -1,4 +1,8 @@
-{ pkgs, ... }:
+{
+  inputs,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -18,7 +22,10 @@
   # Only change after reading the release notes, never in a routine update.
   system.stateVersion = "24.05";
   home-manager.users.nous.home.stateVersion = "24.11";
-  home-manager.users.nous.imports = [ ../../user/ai.nix ];
+  home-manager.users.nous.imports = [
+    ../../user/ai.nix
+    inputs.agent-skills.homeManagerModules.default
+  ];
 
   networking = {
     hostName = "niver";
