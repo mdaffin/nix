@@ -22,6 +22,11 @@
       flake = false;
     };
 
+    nix-skills = {
+      url = "github:olafkfreund/nix-skills";
+      flake = false;
+    };
+
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     disko = {
@@ -203,6 +208,6 @@
 
       # Exposed in the let block for installerInfo; also needed by
       # nixos-rebuild/disko/nixos-install to resolve .#<host>.
-      nixosConfigurations = nixosConfigurations;
+      inherit nixosConfigurations;
     };
 }

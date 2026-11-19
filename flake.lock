@@ -81,6 +81,22 @@
         "type": "github"
       }
     },
+    "nix-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790233682,
+        "narHash": "sha256-kpfzu06HYAMP/pmu3CRPQb+skIjZGByxvaUy7F08axw=",
+        "owner": "olafkfreund",
+        "repo": "nix-skills",
+        "rev": "f5c8e8b3b3255e323e5b84192d0b6ed2e79ef4f4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "olafkfreund",
+        "repo": "nix-skills",
+        "type": "github"
+      }
+    },
     "nixos-hardware": {
       "inputs": {
         "nixpkgs": "nixpkgs"
@@ -167,6 +183,7 @@
         "disko": "disko",
         "home-manager": "home-manager",
         "nix-index-database": "nix-index-database",
+        "nix-skills": "nix-skills",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-master": "nixpkgs-master",

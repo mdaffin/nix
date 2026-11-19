@@ -43,6 +43,15 @@
     };
   });
 
+  # TUI keybindings. ctrl+c stays bound to prompt.clear and
+  # session.interrupt; it is only removed from app.exit so the app no
+  # longer quits on ctrl+c.
+  opencodeCliConfig = pkgs.writeText "cli.json" (builtins.toJSON {
+    keybinds = {
+      app.exit = "ctrl+d,<leader>q";
+    };
+  });
+
   agents = {
     opencode = {
       package = pkgs.opencode;
@@ -168,6 +177,7 @@ in {
 
   config = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
     xdg.configFile."opencode/opencode.json".source = "${opencodeConfig}";
+    xdg.configFile."opencode/cli.json".source = "${opencodeCliConfig}";
 
     programs.agent-skills = {
       enable = true;
@@ -177,11 +187,19 @@ in {
           input = "nushell-pro";
           subdir = ".";
         };
+        nix-skills = {
+          input = "nix-skills";
+          subdir = "skills";
+        };
       };
 
       skills.enable = [
         "nushell-pro"
       ];
+      # Enable every skill shipped by the nix-skills repo (nix-language,
+      # nixos-operations, home-manager, ...); new skills are picked up
+      # automatically when the input is updated.
+      skills.enableAll = [ "nix-skills" ];
 
       targets.opencode.enable = true;
     };
