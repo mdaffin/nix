@@ -129,22 +129,6 @@
         "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
       }
     },
-    "nixpkgs-master": {
-      "locked": {
-        "lastModified": 1795105835,
-        "narHash": "sha256-Tn9H9XsVrd532+tDnHv21IQ+2f27pQ6GuZsWtgcPjC0=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "81cfa9c2d455fc817629c5f05130430d4a14514b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "master",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1794890597,
@@ -186,7 +170,6 @@
         "nix-skills": "nix-skills",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
-        "nixpkgs-master": "nixpkgs-master",
         "nushell-pro": "nushell-pro",
         "rust-overlay": "rust-overlay",
         "zen-browser": "zen-browser"
