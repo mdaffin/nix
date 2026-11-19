@@ -48,7 +48,7 @@
   # longer quits on ctrl+c.
   opencodeCliConfig = pkgs.writeText "cli.json" (builtins.toJSON {
     keybinds = {
-      app.exit = "ctrl+d,<leader>q";
+      app_exit = ["ctrl+d" "<leader>q"];
     };
   });
 
