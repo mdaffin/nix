@@ -147,6 +147,9 @@ let
       "--ro-bind"
       "${gitConfig}"
       "${sandboxHome}/.config/git/config"
+      "--ro-bind"
+      "${sandboxHome}/.config/git/ignore"
+      "${sandboxHome}/.config/git/ignore"
     ]
     ++ agent.binds
     ++ [
