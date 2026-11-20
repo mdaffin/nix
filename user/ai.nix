@@ -27,8 +27,8 @@ let
   # sshCommand, ...) never enters the sandbox.
   gitConfig = pkgs.writeText "ai-agent-gitconfig" ''
     [user]
-      name = ai-agent
-      email = ai-agent@localhost
+      name = nous
+      email = github.palpable@so3.uk
     [safe]
       directory = *
   '';
