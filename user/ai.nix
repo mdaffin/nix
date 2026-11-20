@@ -251,10 +251,16 @@ in
           input = "nix-skills";
           subdir = "skills";
         };
+        # Skills stored alongside this config instead of in a flake input.
+        local = {
+          input = "local-skills";
+          subdir = ".";
+        };
       };
 
       skills.enable = [
         "nushell-pro"
+        "defcmd"
       ];
       # Enable every skill shipped by the nix-skills repo (nix-language,
       # nixos-operations, home-manager, ...); new skills are picked up

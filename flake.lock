@@ -61,6 +61,18 @@
         "type": "github"
       }
     },
+    "local-skills": {
+      "flake": false,
+      "locked": {
+        "path": "./user/ai/skills",
+        "type": "path"
+      },
+      "original": {
+        "path": "./user/ai/skills",
+        "type": "path"
+      },
+      "parent": []
+    },
     "nix-index-database": {
       "inputs": {
         "nixpkgs": [
@@ -166,6 +178,7 @@
         "agent-skills": "agent-skills",
         "disko": "disko",
         "home-manager": "home-manager",
+        "local-skills": "local-skills",
         "nix-index-database": "nix-index-database",
         "nix-skills": "nix-skills",
         "nixos-hardware": "nixos-hardware",

@@ -24,6 +24,11 @@
       flake = false;
     };
 
+    local-skills = {
+      url = "path:./user/ai/skills";
+      flake = false;
+    };
+
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     disko = {
