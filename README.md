@@ -6,15 +6,15 @@ can reuse.
 
 ## Layout
 
-| Path | Contents |
-| --- | --- |
-| `flake.nix` | Inputs and outputs: hosts, modules, `devShells`, `templates`, `checks`, `formatter` |
-| `hosts/<name>/` | Per host config (`configuration.nix`, hardware, disko layout) |
-| `system/` | NixOS modules hosts opt in to (desktop, audio, laptop, ...) |
-| `user/` | home-manager config shared across machines |
-| `shells/` | Dev shells, exposed as `devShells.<system>.<name>` |
-| `templates/` | Thin project templates wrapping the shells |
-| `hosts/iso/` | Installer ISO (`nixosConfigurations.iso`) |
+| Path            | Contents                                                                            |
+| --------------- | ----------------------------------------------------------------------------------- |
+| `flake.nix`     | Inputs and outputs: hosts, modules, `devShells`, `templates`, `checks`, `formatter` |
+| `hosts/<name>/` | Per host config (`configuration.nix`, hardware, disko layout)                       |
+| `system/`       | NixOS modules hosts opt in to (desktop, audio, laptop, ...)                         |
+| `user/`         | home-manager config shared across machines                                          |
+| `shells/`       | Dev shells, exposed as `devShells.<system>.<name>`                                  |
+| `templates/`    | Thin project templates wrapping the shells                                          |
+| `hosts/iso/`    | Installer ISO (`nixosConfigurations.iso`)                                           |
 
 Hosts: `niver`, `eulfe`, `lucal`, plus the installer `iso`.
 
@@ -92,7 +92,6 @@ The image has no copy of the repo inside it. Install straight from GitHub (see b
 hand (adjust the devices to the host's layout in `hosts/<name>/disko-configuration.nix`):
 
 Boot the installer, then:
-
 
 ```bash
 sudo -i
