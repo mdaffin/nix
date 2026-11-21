@@ -7,6 +7,22 @@
       # Needed by `editor.shell` below; the language servers are in
       # language-servers.nix.
       extraPackages = [ pkgs.nushell ];
+
+      languages = {
+        language = [
+          {
+            name = "markdown";
+            formatter = {
+              command = "dprint";
+              args = [
+                "fmt"
+                "--stdin"
+                "md"
+              ];
+            };
+          }
+        ];
+      };
       settings = {
         theme = "bogster";
         keys.normal."space" = {

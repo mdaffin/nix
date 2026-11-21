@@ -11,6 +11,7 @@
     ./browser.nix
     ./cli-extras.nix
     ./editor.nix
+    ./dprint.nix
     ./git.nix
     ./language-servers.nix
     ./shell.nix

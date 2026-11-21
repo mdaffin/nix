@@ -21,6 +21,8 @@ let
     bash
     nushell
     coreutils
+    dprint
+    dprint-plugins.dprint-plugin-markdown
   ];
 
   # Minimal gitconfig so the real one (with includes, credential helpers,
@@ -162,6 +164,9 @@ let
       "--ro-bind"
       "${sandboxHome}/.config/git/ignore"
       "${sandboxHome}/.config/git/ignore"
+      "--ro-bind"
+      "${sandboxHome}/.config/dprint"
+      "${sandboxHome}/.config/dprint"
     ]
     ++ agent.binds
     ++ [
