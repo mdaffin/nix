@@ -51,6 +51,18 @@ let
   # longer quits on ctrl+c.
   opencodeCliConfig = pkgs.writeText "cli.json" (
     builtins.toJSON {
+      session = {
+        sidebar = "hide";
+        scrollbar = false;
+        submit_scroll = "bottom";
+        thinking = "show";
+        grouping = "auto";
+        image_preview = false;
+        tps = true;
+        markdown = "rendered";
+        new_location = "launch";
+        permissions = "prompt";
+      };
       keybinds = {
         app_exit = [
           "ctrl+d"
