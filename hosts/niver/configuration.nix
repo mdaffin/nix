@@ -11,6 +11,7 @@
     ./XB270HU.nix
     ../../system/audio.nix
     ../../system/ai.nix
+    ../../system/openssh.nix
     # ../../system/backup.nix
     ../../system/bluetooth.nix
     ../../system/common.nix
