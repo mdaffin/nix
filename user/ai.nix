@@ -278,6 +278,7 @@ in
       skills.enable = [
         "nushell-pro"
         "defcmd"
+        "markdown"
       ];
       # Enable every skill shipped by the nix-skills repo (nix-language,
       # nixos-operations, home-manager, ...); new skills are picked up
