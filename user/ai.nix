@@ -54,7 +54,7 @@ let
   opencodeCliConfig = pkgs.writeText "cli.json" (
     builtins.toJSON {
       session = {
-        sidebar = "hide";
+        sidebar = "auto";
         scrollbar = false;
         submit_scroll = "bottom";
         thinking = "show";
