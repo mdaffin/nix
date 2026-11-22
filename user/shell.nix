@@ -14,7 +14,6 @@
     };
     jq.enable = true;
     ripgrep.enable = true;
-    zellij.enable = true;
 
     nushell = {
       enable = true;

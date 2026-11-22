@@ -43,7 +43,18 @@ let
         npm = "@ai-sdk/openai-compatible";
         name = "Ollama (local)";
         options.baseURL = "${ollamaUrl}/v1";
-        models.${cfg.model}.name = cfg.model;
+        models.${cfg.model} = {
+          name = cfg.model;
+          # Cap the model's reported context width at the Ollama limit (OLLAMA_CONTEXT_LENGTH = 64000).
+          # Without this, OpenCode reads Ollama's native 262144 and computes its context bar
+          # and compaction threshold against a 256k window — so at ~58k it says "22% full" and
+          # never compacts, while you're actually ~90% into the real 64k and about to hit the
+          # "too long" wall. `limit.output` is required by the schema; setting it to the same
+          # value is a no-op for responses (output can never exceed the context window) and
+          # just keeps the two caps consistent.
+          limit.context = 64000;
+          limit.output = 64000;
+        };
       };
     }
   );
