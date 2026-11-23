@@ -52,8 +52,8 @@ let
           # "too long" wall. `limit.output` is required by the schema; setting it to the same
           # value is a no-op for responses (output can never exceed the context window) and
           # just keeps the two caps consistent.
-          limit.context = 64000;
-          limit.output = 64000;
+          limit.context = 128000;
+          limit.output = 128000;
         };
       };
     }

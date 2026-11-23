@@ -11,7 +11,7 @@
       OLLAMA_KEEP_ALIVE = "6h";
       OLLAMA_KV_CACHE_TYPE = "q8_0";
       OLLAMA_FLASH_ATTENTION = "1";
-      OLLAMA_CONTEXT_LENGTH = "64000";
+      OLLAMA_CONTEXT_LENGTH = "128000";
     };
   };
 }
