@@ -290,6 +290,7 @@ in
         "nushell-pro"
         "defcmd"
         "markdown"
+        "project-planning"
       ];
       # Enable every skill shipped by the nix-skills repo (nix-language,
       # nixos-operations, home-manager, ...); new skills are picked up
