@@ -12,6 +12,15 @@ let
   sandboxHome = config.home.homeDirectory;
 
   agentTools = with pkgs; [
+    jq
+    statix
+    deadnix
+    less
+    lesspipe
+    file
+    tree
+    nix
+    nixfmt
     git
     gnugrep
     gnused
