@@ -1,8 +1,6 @@
 { ... }:
 
 {
-  services.pipewire.systemWide = true;
-
   # WireWire-Pulse server socket. `unix:native` keeps the local session bus
   # working; `tcp:4713` is how client reach it over the LAN. The key matches
   # the daemon's own config and is merged by append.
@@ -16,10 +14,11 @@
   # Advertise sink + source over mDNS so eulfe can discover it. This
   # runs in the protocol-pulse context.
   services.pipewire.extraConfig.pipewire-pulse."98-zeroconf" = {
-    "context.modules" = [
+    "pulse.cmd" = [
       {
-        name = "libpipewire-module-zeroconf-publish";
-        args = { };
+        cmd = "load-module";
+        args = "module-zeroconf-publish";
+        flags = [ "nofail" ];
       }
     ];
   };
