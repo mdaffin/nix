@@ -4,6 +4,7 @@ _:
   imports = [
     ./hardware-configuration.nix
     ../../system/audio.nix
+    ../../system/audio-transmitter.nix
     ../../system/bluetooth.nix
     ../../system/common.nix
     (import ../../system/disko-single-disk.nix { device = "/dev/sda"; })

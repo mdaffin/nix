@@ -10,6 +10,7 @@
     ./disko-configuration.nix
     ./XB270HU.nix
     ../../system/audio.nix
+    ../../system/audio-receiver.nix
     ../../system/ai.nix
     ../../system/openssh.nix
     # ../../system/backup.nix
