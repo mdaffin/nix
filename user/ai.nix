@@ -54,7 +54,7 @@ let
         options.baseURL = "${ollamaUrl}/v1";
         models.${cfg.model} = {
           name = cfg.model;
-          # Cap the model's reported context width at the Ollama limit (OLLAMA_CONTEXT_LENGTH = 64000).
+          # Cap the model's reported context width at the Ollama limit (OLLAMA_CONTEXT_LENGTH = 128000).
           # Without this, OpenCode reads Ollama's native 262144 and computes its context bar
           # and compaction threshold against a 256k window — so at ~58k it says "22% full" and
           # never compacts, while you're actually ~90% into the real 64k and about to hit the
@@ -74,7 +74,7 @@ let
   opencodeCliConfig = pkgs.writeText "cli.json" (
     builtins.toJSON {
       session = {
-        sidebar = "auto";
+        sidebar = "never";
         scrollbar = false;
         submit_scroll = "bottom";
         thinking = "show";
